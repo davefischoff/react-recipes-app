@@ -1,0 +1,41 @@
+.recipes-page {
+  display: flex;
+}
+
+.recipe-filters {
+  width: 20%;
+}
+
+.recipe-list-wrapper {
+  width: 80%;
+}
+
+.recipes-list {
+  display: grid;
+	grid-template-columns: 1fr 1fr 1fr 1fr;
+	grid-column-gap: 25px;
+	grid-row-gap: 25px;
+}
+  
+.recipe-card {
+  padding: 1rem 2rem;
+  border: 1px solid black;
+}
+
+.filters-list {
+  list-style-type: none;
+  padding-right: 2rem;
+}
+
+.filter-link {
+  text-decoration: none;
+  display: block;
+  padding: 1rem;
+  color: black;
+}
+
+.filter-link.selected {
+  border: 1px solid;
+  font-weight: bold;
+  background-color: lightgray;
+}
