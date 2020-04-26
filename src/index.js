@@ -2,6 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter, Route, Switch, Link } from 'react-router-dom';
 import Recipe from './components/recipe';
+import SavedRecipes from './components/saved-recipes';
 // import { useState } from 'react';
 import './index.css';
 
@@ -52,9 +53,10 @@ class List extends React.Component {
 
     renderCard(recipe, index) {
 
-        if((this.props.recipeType === 'all' && !this.props.query.length) || 
-            this.props.recipeType === recipe.type
-            || (this.props.query.length && recipe.title.toLowerCase().includes(this.props.query.toLowerCase()))) {
+        if(
+            ( this.props.recipeType === 'all' && (!this.props.query.length || (this.props.query.length && recipe.title.toLowerCase().includes(this.props.query.toLowerCase()))) ) || 
+            ( this.props.recipeType === recipe.type && (!this.props.query.length || (this.props.query.length && recipe.title.toLowerCase().includes(this.props.query.toLowerCase()) )) )
+        ) {
             return (
                 <Card 
                     recipe={recipe} 
@@ -83,12 +85,12 @@ class List extends React.Component {
 function Filter(props) {
     return (
         <li key={props.index}>
-            <a href="#" 
+            <button 
             className={"filter-link " + (props.recipeType === props.filter.value ? 'selected' : '')}
             onClick={props.onClick}
             >
                 {props.filter.name}
-            </a>
+            </button>
         </li>
     )
 }
@@ -111,10 +113,10 @@ class Filters extends React.Component {
         return (
             <ul className="filters-list">
                 <li>
-                    <a href="#"
+                    <button
                         className={"filter-link " + (this.props.recipeType === 'all' ? 'selected' : '')}
                         onClick={() => this.props.onClick('all')}
-                    >All</a>
+                    >All</button>
                 </li>
                 {this.props.filters.map((filter, index) => (
                     self.renderFilter(filter,index)
@@ -189,11 +191,13 @@ class Recipes extends React.Component {
                 }
             ],
             recipeType: 'all',
-            query: ''
+            query: '',
+            savedRecipes: []
         }
 
         this.setRecipeType = this.setRecipeType.bind(this);
         this.handleSearch = this.handleSearch.bind(this);
+        this.toggleSavedRecipe = this.toggleSavedRecipe.bind(this);
     }
 
     setRecipeType(value) {
@@ -204,13 +208,29 @@ class Recipes extends React.Component {
         this.setState({query: event.target.value});
     }
 
+    toggleSavedRecipe(recipe) {
+        // make a copy of savedRecipes state array
+        let savedRecipes = [...this.state.savedRecipes]
+        let index = savedRecipes.indexOf(recipe)
+        if (index !== -1) {
+            savedRecipes.splice(index, 1);
+        } else {
+            savedRecipes.push(recipe)
+        }
+        this.setState({savedRecipes: savedRecipes});
+
+    }
+
     render() {
 
         return (
             <Switch>
                 {/* <Route path="/" exact/> */}
                 <Route path="/recipes/:recipeSlug"
-                    render={ (props) => <Recipe recipes={this.state.recipes} {...props} />}/>
+                    render={ (props) => <Recipe recipes={this.state.recipes} savedRecipes={this.state.savedRecipes} toggleSavedRecipe={this.toggleSavedRecipe} {...props} />}/>
+
+                <Route path="/saved-recipes"
+                    render={ (props) => <SavedRecipes savedRecipes={this.state.savedRecipes} {...props} />}/>
                 <div className="recipes-page">
                     <div className="recipe-filters">
                         <Filters
@@ -225,6 +245,8 @@ class Recipes extends React.Component {
                             <label>Search:</label>
                             <input type="text" value={this.state.query} onChange={this.handleSearch} />
                         </div>
+
+                        <Link to={{ pathname: '/saved-recipes'}}>Saved Recipes ({this.state.savedRecipes.length})</Link>
 
                         <List
                             recipes={this.state.recipes} 
