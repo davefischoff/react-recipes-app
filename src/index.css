@@ -39,3 +39,24 @@
   font-weight: bold;
   background-color: lightgray;
 }
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 2rem;
+}
+
+.recipe-detail-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+@media (min-width: 768px) {
+  .ingredients-wrapper {
+    width: 33.33%;
+  }
+  .instructions-wrapper {
+    width: 66.66%;
+  }
+}

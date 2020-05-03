@@ -1,24 +1,55 @@
 import React, { Component } from 'react';
 import {withRouter} from 'react-router';
 import { Link } from 'react-router-dom';
+import Card from './card';
+import Filters from './filters';
+
 
 class SavedRecipes extends Component {
+    constructor(props){
+        super(props);
+        this.state = {
+            filters: [
+                {
+                    name: 'Main Course',
+                    value: 'main-course'
+                },
+                {
+                    name: 'Side Dish',
+                    value: 'side-dish'
+                }
+            ],
+            recipeType: 'all',
+            query: ''
+        }
+
+        this.setRecipeType = this.setRecipeType.bind(this);
+        this.handleSearch = this.handleSearch.bind(this);
+    }
+
+    setRecipeType(value) {
+        this.setState({recipeType: value});
+    }
+
+    handleSearch(event) {
+        this.setState({query: event.target.value});
+    }
+
     
     renderCard(recipe, index) {
 
-        // if(
-        //     ( this.props.recipeType === 'all' && (!this.props.query.length || (this.props.query.length && recipe.title.toLowerCase().includes(this.props.query.toLowerCase()))) ) || 
-        //     ( this.props.recipeType === recipe.type && (!this.props.query.length || (this.props.query.length && recipe.title.toLowerCase().includes(this.props.query.toLowerCase()) )) )
-        // ) {
+        if(
+            ( this.state.recipeType === 'all' && (!this.state.query.length || (this.state.query.length && recipe.title.toLowerCase().includes(this.state.query.toLowerCase()))) ) || 
+            ( this.state.recipeType === recipe.type && (!this.state.query.length || (this.state.query.length && recipe.title.toLowerCase().includes(this.state.query.toLowerCase()) )) )
+        ) {
             return (
-                <div>{recipe.title}</div>
-                // <Card 
-                //     recipe={recipe} 
-                //     key={index} 
-                //     recipeType={this.props.recipeType}
-                // />
+                <Card 
+                    recipe={recipe} 
+                    key={index} 
+                    recipeType={this.props.recipeType}
+                />
             );
-        // }
+        }
 
     }
 
@@ -27,11 +58,30 @@ class SavedRecipes extends Component {
         return (
             
         <div>
-            <Link to={{ pathname: '/recipes'}}>Back to all recipes</Link>
-            <div className="recipes-list">
-                {this.props.savedRecipes.map((recipe, index) => (
-                    self.renderCard(recipe, index)
-                ))}
+            <div className="header header-saved-recipes">
+                <Link to={{ pathname: '/recipes'}}>Back to all recipes</Link>
+                <div>
+                    <label>Search:</label>
+                    <input type="text" value={this.state.query} onChange={this.handleSearch} />
+                </div>
+
+                <Link to={{ pathname: '/saved-recipes'}}>Saved Recipes ({this.props.savedRecipes.length})</Link>
+            </div>
+
+            <div className="recipes-page">
+                <div className="recipe-filters">
+                    <Filters
+                        recipeType={this.state.recipeType} 
+                        filters={this.state.filters}
+                        onClick={(value) => this.setRecipeType(value)}
+                    />
+                </div>
+
+                <div className="recipes-list">
+                    {this.props.savedRecipes.map((recipe, index) => (
+                        self.renderCard(recipe, index)
+                    ))}
+                </div>
             </div>
         </div>
         );

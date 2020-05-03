@@ -8,7 +8,6 @@ class Recipe extends Component {
         
         const recipe = this.props.recipes.find(r => r.slug === this.props.match.params.recipeSlug);
         let recipeSaved = this.props.savedRecipes.find(r => r.slug === this.props.match.params.recipeSlug);
-        console.log(recipeSaved)
 
         let buttonText = "Save Recipe"
         if(recipeSaved) {
@@ -16,11 +15,38 @@ class Recipe extends Component {
         }
         return (
         <div>
-            <Link to={{ pathname: '/recipes'}}>Back</Link>
-            Recipe :  {recipe.title}
+            <div className="header">
+                <Link to={{ pathname: '/recipes'}}>Back to all recipes</Link>
+                <Link to={{ pathname: '/saved-recipes'}}>Saved Recipes ({this.props.savedRecipes.length})</Link>
+            </div>
 
-        <button onClick={() => this.props.toggleSavedRecipe(recipe)}>{buttonText}</button>
-
+            <div>
+                <div>
+                    <h1>{recipe.title}</h1>
+                    <p>Servings: {recipe.servings}</p>
+                    <p>Cook Time: {recipe.cookTimeInMinutes} minutes</p>
+                    <button onClick={() => this.props.toggleSavedRecipe(recipe)}>{buttonText}</button>
+                </div>
+            </div>
+            <div className="recipe-detail-wrapper">
+                <div className="ingredients-wrapper">
+                    <h5>Ingredients</h5>
+                    <ul>
+                        {recipe.ingredients.map(ingredient => (
+                            <li>{ingredient}</li>
+                        ))}
+                    </ul>
+                </div>
+                <div className="instructions-wrapper">
+                    <h5>Instructions</h5>
+                    {recipe.steps.map((step, index) => (
+                        <div>
+                            <h6>Step {index + 1}</h6>
+                            <p>{step}</p>
+                        </div>
+                    ))}
+                </div>
+            </div>
         </div>
 
         );

@@ -2,53 +2,12 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter, Route, Switch, Link } from 'react-router-dom';
 import Recipe from './components/recipe';
+import Card from './components/card';
+import Filters from './components/filters';
 import SavedRecipes from './components/saved-recipes';
 // import { useState } from 'react';
 import './index.css';
 
-
-function Card(props) {
-    
-    return (
-
-        <Link to={{ pathname: '/recipes/'+props.recipe.slug}}>
-            <div className="recipe-card">
-                <h3>{props.recipe.title}</h3>
-                <h6>Cook Time: {props.recipe.cookTimeInMinutes} min.</h6>
-                <h6>Servings: {props.recipe.servings}</h6>
-            </div>
-        </Link>
-    );
-}
-
-// class Recipe extends React.Component {
-//     render() {
-//         console.log(this.data)
-//         return(
-//             this.data
-//         )
-//     }
-//     // render(){
-//     //     var recipe= data.find(r => r.slug == match.params.recipeSlug);
-//     //     var recipeData;
-      
-//     //     if(recipe)
-//     //       recipeData = <div>
-//     //         <h3> {recipe.title} </h3>
-//     //     </div>;
-//     //     else
-//     //       recipeData = <h2> Sorry. Recipe doesnt exist </h2>;
-      
-//     //     return (
-//     //       <div>
-//     //         <div>
-//     //            {recipeData}
-//     //         </div>
-//     //       </div>
-//     //     )   
-//     // }
-// }
-  
 class List extends React.Component {
 
     renderCard(recipe, index) {
@@ -81,50 +40,6 @@ class List extends React.Component {
         );
     }
 }
-
-function Filter(props) {
-    return (
-        <li key={props.index}>
-            <button 
-            className={"filter-link " + (props.recipeType === props.filter.value ? 'selected' : '')}
-            onClick={props.onClick}
-            >
-                {props.filter.name}
-            </button>
-        </li>
-    )
-}
-
-class Filters extends React.Component {
-
-    renderFilter(filter, index) {
-        return(
-            <Filter 
-                filter={filter} 
-                key={index}
-                onClick={() => this.props.onClick(filter.value)}
-                recipeType={this.props.recipeType}
-            />
-        )
-    }
-
-    render(){
-        const self = this;
-        return (
-            <ul className="filters-list">
-                <li>
-                    <button
-                        className={"filter-link " + (this.props.recipeType === 'all' ? 'selected' : '')}
-                        onClick={() => this.props.onClick('all')}
-                    >All</button>
-                </li>
-                {this.props.filters.map((filter, index) => (
-                    self.renderFilter(filter,index)
-                ))}
-            </ul>
-        )
-    }
-}
   
 class Recipes extends React.Component {
     constructor(props){
@@ -140,6 +55,10 @@ class Recipes extends React.Component {
                         '2 cups potatoes',
                         '1/2 cup milk'
                     ],
+                    steps: [
+                        'Step 1 Mashed Potatoes.',
+                        'Step 2 Mashed Potatoes.'
+                    ],
                     type: 'side-dish'
                 },
                 {
@@ -151,6 +70,10 @@ class Recipes extends React.Component {
                         '1 lb beef',
                         '1 cup chopped carrots',
                         '1 cup chopped onion'
+                    ],
+                    steps: [
+                        'Step 1 Beef Stew.',
+                        'Step 2 Beef Stew.'
                     ],
                     type: 'main-course'
                 },
@@ -165,6 +88,10 @@ class Recipes extends React.Component {
                         '8 sprigs cilantro',
                         '1/2 cup chopped onion'
                     ],
+                    steps: [
+                        'Step 1 Chicken Tacos.',
+                        'Step 2 Chicken Tacos.'
+                    ],
                     type: 'main-course'
                 },
                 {
@@ -176,6 +103,10 @@ class Recipes extends React.Component {
                         '1 lb carrots, quartered',
                         '2 tbsp olive oil',
                         'salt to taste'
+                    ],
+                    steps: [
+                        'Step 1 Roasted Carrots.',
+                        'Step 2 Roasted Carrots.'
                     ],
                     type: 'side-dish'
                 }
@@ -231,7 +162,16 @@ class Recipes extends React.Component {
 
                 <Route path="/saved-recipes"
                     render={ (props) => <SavedRecipes savedRecipes={this.state.savedRecipes} {...props} />}/>
-                <div className="recipes-page">
+                <div>
+                    <div className="header header-main">
+                        <div>
+                            <label>Search:</label>
+                            <input type="text" value={this.state.query} onChange={this.handleSearch} />
+                        </div>
+
+                        <Link to={{ pathname: '/saved-recipes'}}>Saved Recipes ({this.state.savedRecipes.length})</Link>
+                    </div>
+                    <div className="recipes-page">
                     <div className="recipe-filters">
                         <Filters
                             recipeType={this.state.recipeType} 
@@ -241,19 +181,13 @@ class Recipes extends React.Component {
                     </div>
                     <div className="recipe-list-wrapper">
 
-                        <div>
-                            <label>Search:</label>
-                            <input type="text" value={this.state.query} onChange={this.handleSearch} />
-                        </div>
-
-                        <Link to={{ pathname: '/saved-recipes'}}>Saved Recipes ({this.state.savedRecipes.length})</Link>
-
                         <List
                             recipes={this.state.recipes} 
                             recipeType={this.state.recipeType} 
                             query={this.state.query}
                         />
                     </div>
+                </div>
                 </div>
             </Switch>
         );
