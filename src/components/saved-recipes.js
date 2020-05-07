@@ -17,6 +17,26 @@ class SavedRecipes extends Component {
                 {
                     name: 'Side Dish',
                     value: 'side-dish'
+                },
+                {
+                    name: 'Snacks',
+                    value: 'snacks'
+                },
+                {
+                    name: 'Vegetarian',
+                    value: 'vegetarian'
+                },
+                {
+                    name: 'Chicken',
+                    value: 'chicken'
+                },
+                {
+                    name: 'Pork',
+                    value: 'pork'
+                },
+                {
+                    name: 'Fish',
+                    value: 'fish'
                 }
             ],
             recipeType: 'all',
@@ -40,7 +60,7 @@ class SavedRecipes extends Component {
 
         if(
             ( this.state.recipeType === 'all' && (!this.state.query.length || (this.state.query.length && recipe.title.toLowerCase().includes(this.state.query.toLowerCase()))) ) || 
-            ( this.state.recipeType === recipe.type && (!this.state.query.length || (this.state.query.length && recipe.title.toLowerCase().includes(this.state.query.toLowerCase()) )) )
+            ( recipe.type.includes(this.state.recipeType) && (!this.state.query.length || (this.state.query.length && recipe.title.toLowerCase().includes(this.state.query.toLowerCase()) )) )
         ) {
             return (
                 <Card 
