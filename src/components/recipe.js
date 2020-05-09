@@ -20,13 +20,14 @@ class Recipe extends Component {
                 <Link to={{ pathname: '/saved-recipes'}}>Saved Recipes ({this.props.savedRecipes.length})</Link>
             </div>
 
-            <div>
-                <div>
+            <div className="recipe-detail-upper">
+                <div className="recipe-detail-upper-text">
                     <h1>{recipe.title}</h1>
                     <p>Servings: {recipe.servings}</p>
                     <p>Cook Time: {recipe.cookTimeInMinutes} minutes</p>
-                    <button onClick={() => this.props.toggleSavedRecipe(recipe)}>{buttonText}</button>
+                    <button className="btn-save-recipe" onClick={() => this.props.toggleSavedRecipe(recipe)}>{buttonText}</button>
                 </div>
+                <div className="recipe-detail-img" style={{backgroundImage: 'url(' + recipe.image + ')'}}></div>
             </div>
             <div className="recipe-detail-wrapper">
                 <div className="ingredients-wrapper">

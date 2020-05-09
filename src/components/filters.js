@@ -2,7 +2,7 @@ import React from 'react';
 
 function Filter(props) {
     return (
-        <li key={props.index}>
+        <li key={props.index} className="li-filter">
             <button 
             className={"filter-link " + (props.recipeType === props.filter.value ? 'selected' : '')}
             onClick={props.onClick}
@@ -30,7 +30,7 @@ class Filters extends React.Component {
         const self = this;
         return (
             <ul className="filters-list">
-                <li>
+                <li className="li-filter">
                     <button
                         className={"filter-link " + (this.props.recipeType === 'all' ? 'selected' : '')}
                         onClick={() => this.props.onClick('all')}

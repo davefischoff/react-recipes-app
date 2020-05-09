@@ -195,6 +195,24 @@ class Recipes extends React.Component {
                     ],
                     type: ['main-course', 'pork']
                 },
+                {
+                    title: 'Pico de Gallo',
+                    slug: 'pico-de-gallo',
+                    image: 'https://imagesvc.meredithcorp.io/v3/mm/image?url=https%3A%2F%2Fimages.media-allrecipes.com%2Fuserphotos%2F874773.jpg&w=596&h=399&c=sc&poi=face&q=85',
+                    cookTimeInMinutes: 50,
+                    servings: 8,
+                    ingredients: [
+                        '3 large tomatoes, diced',
+                        '1 white onion, diced',
+                        '1 bunch cilantro, chopped',
+                        '6 limes, juiced',
+                        '1 tablespoon salt, or to taste'
+                    ],
+                    steps: [
+                        'Toss tomatoes, white onion, and cilantro together in a large bowl. Pour lime juice over tomato mixture; mix to coat. Season with salt. Chill completely before serving.'
+                    ],
+                    type: ['snacks']
+                },
             ],
             filters: [
                 {
@@ -269,7 +287,7 @@ class Recipes extends React.Component {
                     render={ (props) => <SavedRecipes savedRecipes={this.state.savedRecipes} {...props} />}/>
                 <div>
                     <div className="header header-main">
-                        <div>
+                        <div className="search">
                             <label>Search:</label>
                             <input type="text" value={this.state.query} onChange={this.handleSearch} />
                         </div>
