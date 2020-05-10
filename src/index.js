@@ -277,40 +277,42 @@ class Recipes extends React.Component {
         return (
             <Switch>
                 {/* <Route /> */}
-                {/* <Route path="/" exact/> */}
+                <Route path="/recipes" exact>
+                    <div>
+                        <div className="header header-main">
+                            <div className="search">
+                                <label>Search:</label>
+                                <input type="text" value={this.state.query} onChange={this.handleSearch} />
+                            </div>
+
+                            <Link to={{ pathname: '/saved-recipes'}}>Saved Recipes ({this.state.savedRecipes.length})</Link>
+                        </div>
+                        <div className="recipes-page">
+                            <div className="recipe-filters">
+                                <Filters
+                                    recipeType={this.state.recipeType} 
+                                    filters={this.state.filters}
+                                    onClick={(value) => this.setRecipeType(value)}
+                                />
+                            </div>
+                            <div className="recipe-list-wrapper">
+
+                                <List
+                                    recipes={this.state.recipes} 
+                                    recipeType={this.state.recipeType} 
+                                    query={this.state.query}
+                                />
+                            </div>
+                        </div>
+                    </div>
+                </Route>
                 <Route path="/recipes/:recipeSlug"
                     render={ (props) => <Recipe recipes={this.state.recipes} savedRecipes={this.state.savedRecipes} toggleSavedRecipe={this.toggleSavedRecipe} {...props} />}/>
 
                 <Route path="/saved-recipes"
                     render={ (props) => <SavedRecipes savedRecipes={this.state.savedRecipes} {...props} />}/>
-                <div>
-                    <div className="header header-main">
-                        <div className="search">
-                            <label>Search:</label>
-                            <input type="text" value={this.state.query} onChange={this.handleSearch} />
-                        </div>
-
-                        <Link to={{ pathname: '/saved-recipes'}}>Saved Recipes ({this.state.savedRecipes.length})</Link>
-                    </div>
-                    <div className="recipes-page">
-                    <div className="recipe-filters">
-                        <Filters
-                            recipeType={this.state.recipeType} 
-                            filters={this.state.filters}
-                            onClick={(value) => this.setRecipeType(value)}
-                        />
-                    </div>
-                    <div className="recipe-list-wrapper">
-
-                        <List
-                            recipes={this.state.recipes} 
-                            recipeType={this.state.recipeType} 
-                            query={this.state.query}
-                        />
-                    </div>
-                </div>
-                </div>
             </Switch>
+
         );
     }
 }
