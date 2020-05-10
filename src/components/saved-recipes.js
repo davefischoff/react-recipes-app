@@ -58,18 +58,17 @@ class SavedRecipes extends Component {
     
     renderCard(recipe, index) {
 
-        if(
-            ( this.state.recipeType === 'all' && (!this.state.query.length || (this.state.query.length && recipe.title.toLowerCase().includes(this.state.query.toLowerCase()))) ) || 
-            ( recipe.type.includes(this.state.recipeType) && (!this.state.query.length || (this.state.query.length && recipe.title.toLowerCase().includes(this.state.query.toLowerCase()) )) )
-        ) {
-            return (
-                <Card 
-                    recipe={recipe} 
-                    key={index} 
-                    recipeType={this.props.recipeType}
-                />
-            );
-        }
+        let showRecipe = ( this.state.recipeType === 'all' && (!this.state.query.length || (this.state.query.length && recipe.title.toLowerCase().includes(this.state.query.toLowerCase()))) ) || 
+        ( recipe.type.includes(this.state.recipeType) && (!this.state.query.length || (this.state.query.length && recipe.title.toLowerCase().includes(this.state.query.toLowerCase()) )) )
+
+        return (
+            <Card 
+                recipe={recipe} 
+                key={index} 
+                recipeType={this.props.recipeType}
+                showRecipe={showRecipe}
+            />
+        );
 
     }
 
@@ -96,11 +95,12 @@ class SavedRecipes extends Component {
                         onClick={(value) => this.setRecipeType(value)}
                     />
                 </div>
-
-                <div className="recipes-list">
-                    {this.props.savedRecipes.map((recipe, index) => (
-                        self.renderCard(recipe, index)
-                    ))}
+                <div className="recipe-list-wrapper">
+                    <div className="recipes-list">
+                        {this.props.savedRecipes.map((recipe, index) => (
+                            self.renderCard(recipe, index)
+                        ))}
+                    </div>
                 </div>
             </div>
         </div>

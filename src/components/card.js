@@ -5,7 +5,7 @@ function Card(props) {
     
     return (
 
-        <Link to={{ pathname: '/recipes/'+props.recipe.slug}} className="recipe-card">
+        <Link to={{ pathname: '/recipes/'+props.recipe.slug}} className={props.showRecipe ? 'recipe-card visible' : 'recipe-card'}>
             <div className="recipe-img" style={{backgroundImage: 'url(' + props.recipe.image + ')'}}></div>
             <div className="recipe-card-inner">
                 <h3>{props.recipe.title}</h3>

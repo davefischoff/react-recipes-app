@@ -11,20 +11,17 @@ import './index.css';
 class List extends React.Component {
 
     renderCard(recipe, index) {
+        let showRecipe = ( this.props.recipeType === 'all' && (!this.props.query.length || (this.props.query.length && recipe.title.toLowerCase().includes(this.props.query.toLowerCase()))) ) || 
+        ( recipe.type.includes(this.props.recipeType) && (!this.props.query.length || (this.props.query.length && recipe.title.toLowerCase().includes(this.props.query.toLowerCase()) )) )
 
-        if(
-            ( this.props.recipeType === 'all' && (!this.props.query.length || (this.props.query.length && recipe.title.toLowerCase().includes(this.props.query.toLowerCase()))) ) || 
-            ( recipe.type.includes(this.props.recipeType) && (!this.props.query.length || (this.props.query.length && recipe.title.toLowerCase().includes(this.props.query.toLowerCase()) )) )
-        ) {
-            return (
-                <Card 
-                    recipe={recipe} 
-                    key={index} 
-                    recipeType={this.props.recipeType}
-                />
-            );
-        }
-
+        return (
+            <Card 
+                recipe={recipe} 
+                key={index} 
+                recipeType={this.props.recipeType}
+                showRecipe={showRecipe}
+            />
+        );
     }
 
     render() {
@@ -279,6 +276,7 @@ class Recipes extends React.Component {
 
         return (
             <Switch>
+                {/* <Route /> */}
                 {/* <Route path="/" exact/> */}
                 <Route path="/recipes/:recipeSlug"
                     render={ (props) => <Recipe recipes={this.state.recipes} savedRecipes={this.state.savedRecipes} toggleSavedRecipe={this.toggleSavedRecipe} {...props} />}/>

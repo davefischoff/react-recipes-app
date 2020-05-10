@@ -33,15 +33,15 @@ class Recipe extends Component {
                 <div className="ingredients-wrapper">
                     <h5>Ingredients</h5>
                     <ul>
-                        {recipe.ingredients.map(ingredient => (
-                            <li>{ingredient}</li>
+                        {recipe.ingredients.map((ingredient, index) => (
+                            <li key={index} >{ingredient}</li>
                         ))}
                     </ul>
                 </div>
                 <div className="instructions-wrapper">
                     <h5>Instructions</h5>
                     {recipe.steps.map((step, index) => (
-                        <div>
+                        <div key={index}>
                             <h6>Step {index + 1}</h6>
                             <p>{step}</p>
                         </div>
