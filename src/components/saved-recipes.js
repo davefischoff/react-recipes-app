@@ -8,37 +8,53 @@ import Filters from './filters';
 class SavedRecipes extends Component {
     constructor(props){
         super(props);
-        this.state = {
-            filters: [
-                {
-                    name: 'Main Course',
-                    value: 'main-course'
-                },
-                {
-                    name: 'Side Dish',
-                    value: 'side-dish'
-                },
-                {
-                    name: 'Snacks',
-                    value: 'snacks'
-                },
-                {
-                    name: 'Vegetarian',
-                    value: 'vegetarian'
-                },
-                {
-                    name: 'Chicken',
-                    value: 'chicken'
-                },
-                {
-                    name: 'Pork',
-                    value: 'pork'
-                },
-                {
-                    name: 'Fish',
-                    value: 'fish'
+        const allFilters = [
+            {
+                name: 'Main Course',
+                value: 'main-course'
+            },
+            {
+                name: 'Side Dish',
+                value: 'side-dish'
+            },
+            {
+                name: 'Snacks',
+                value: 'snacks'
+            },
+            {
+                name: 'Vegetarian',
+                value: 'vegetarian'
+            },
+            {
+                name: 'Chicken',
+                value: 'chicken'
+            },
+            {
+                name: 'Pork',
+                value: 'pork'
+            },
+            {
+                name: 'Fish',
+                value: 'fish'
+            }
+        ];
+        let filtersShown = allFilters.filter((filter) => {
+            let showFilter = false
+            this.props.savedRecipes.forEach((recipe) => {
+                if (recipe.type.length) {
+                   recipe.type.forEach((type) => {
+                        if(type === filter.value) {
+                            showFilter = true
+                        }
+                    })
                 }
-            ],
+            })
+
+            return showFilter
+        });
+
+        this.state = {
+            filters: filtersShown,
             recipeType: 'all',
             query: ''
         }
